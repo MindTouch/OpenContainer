@@ -23,16 +23,10 @@ class CircularDependencyTwo {
      */
     private ?CircularDependencyOne $dependency;
 
-    /**
-     * @param DependencyContainerInterface $container
-     */
     public function __construct(DependencyContainerInterface $container) {
         $this->dependency = $container->CircularDependencyOne;
     }
 
-    /**
-     * @return CircularDependencyOne|null
-     */
     public function getDependency() : ?CircularDependencyOne {
         return $this->dependency;
     }

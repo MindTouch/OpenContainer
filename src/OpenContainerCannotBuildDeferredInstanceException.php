@@ -22,9 +22,6 @@ use Psr\Container\ContainerExceptionInterface;
 
 class OpenContainerCannotBuildDeferredInstanceException extends Exception implements ContainerExceptionInterface {
 
-    /**
-     * @param string $id
-     */
     public function __construct(string $id) {
         parent::__construct("Could not build a deferred instance of '{$id}'");
     }
