@@ -63,7 +63,6 @@ class OpenContainer implements IContainer {
     }
 
     /**
-     * @param string $id
      * @return object
      * @throws OpenContainerNotRegisteredInContainerException
      * @throws OpenContainerCannotBuildDeferredInstanceException
@@ -99,12 +98,12 @@ class OpenContainer implements IContainer {
 
         // instantiate the type or builder
         $builder = null;
-        $type = isset($this->types[$id]) ? $this->types[$id] : null;
+        $type = $this->types[$id] ?? null;
         if($type === null) {
             if(!isset($this->builders[$id])) {
                 throw new OpenContainerNotRegisteredInContainerException($id);
             }
-            $builder = isset($this->builders[$id]) ? $this->builders[$id] : null;
+            $builder = $this->builders[$id] ?? null;
         }
         if($this->isDeferred) {
             if($builder !== null) {
@@ -112,7 +111,7 @@ class OpenContainer implements IContainer {
                 // builder return type will be used as proxy until builder creates instance
                 try {
                     $reflectionType = (new ReflectionFunction($builder))->getReturnType();
-                } catch(ReflectionException $e) {
+                } catch(ReflectionException) {
                     $reflectionType = null;
                 }
                 if($reflectionType === null) {
@@ -143,7 +142,6 @@ class OpenContainer implements IContainer {
     /**
      * @note type hint is not leveraged in this method as the psr/container interface does not include it
      * @param string $id
-     * @return bool
      * @noinspection PhpMissingParamTypeInspection
      */
     public function has($id) : bool {
@@ -155,7 +153,7 @@ class OpenContainer implements IContainer {
     }
 
     public function isRegistered(string $id) : bool {
-        return in_array($id, array_merge(array_keys($this->builders), array_keys($this->instances), array_keys($this->types)));
+        return in_array($id, [...array_keys($this->builders), ...array_keys($this->instances), ...array_keys($this->types)]);
     }
 
     public function isResolved(string $id): bool {
@@ -189,8 +187,6 @@ class OpenContainer implements IContainer {
 
     /**
      * Remove all registrations and instances for an id
-     *
-     * @param string $id
      */
     protected function unregister(string $id) : void {
         unset($this->builders[$id]);

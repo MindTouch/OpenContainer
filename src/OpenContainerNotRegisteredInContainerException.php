@@ -22,9 +22,6 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class OpenContainerNotRegisteredInContainerException extends Exception implements NotFoundExceptionInterface {
 
-    /**
-     * @param string $id
-     */
     public function __construct(string $id) {
         parent::__construct("Could not find '{$id}' registered in the container");
     }

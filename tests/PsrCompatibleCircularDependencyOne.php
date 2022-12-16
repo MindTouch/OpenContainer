@@ -23,16 +23,10 @@ class PsrCompatibleCircularDependencyOne {
      */
     private ?PsrCompatibleCircularDependencyTwo $dependency;
 
-    /**
-     * @param DependencyContainerInterface $container
-     */
     public function __construct(DependencyContainerInterface $container) {
         $this->dependency = $container->get('PsrCompatibleCircularDependencyTwo');
     }
 
-    /**
-     * @return PsrCompatibleCircularDependencyTwo|null
-     */
     public function getDependency() : ?PsrCompatibleCircularDependencyTwo {
         return $this->dependency;
     }

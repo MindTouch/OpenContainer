@@ -24,9 +24,6 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class OpenContainerTest extends TestCase {
 
-    /**
-     * @return array
-     */
     public static function container_Provider() : array {
         return [
             'container' => [new DependencyContainer()],
@@ -34,9 +31,6 @@ class OpenContainerTest extends TestCase {
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function container_psr_Provider() : array {
         return [
             'container' => [new DependencyContainer(), false],
@@ -46,9 +40,6 @@ class OpenContainerTest extends TestCase {
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function psr_Provider() : array {
         return [
             'with psr interface' => [true],
@@ -58,8 +49,6 @@ class OpenContainerTest extends TestCase {
 
     /**
      * @dataProvider container_psr_Provider
-     * @param DependencyContainerInterface $container
-     * @param bool $psr
      * @test
      */
     public function Can_handle_instance_registration(DependencyContainerInterface $container, bool $psr) : void {
@@ -73,8 +62,6 @@ class OpenContainerTest extends TestCase {
 
     /**
      * @dataProvider container_psr_Provider
-     * @param DependencyContainerInterface $container
-     * @param bool $psr
      * @test
      */
     public function Can_handle_type_registration(DependencyContainerInterface $container, bool $psr) : void {
@@ -93,8 +80,6 @@ class OpenContainerTest extends TestCase {
 
     /**
      * @dataProvider container_psr_Provider
-     * @param DependencyContainerInterface $container
-     * @param bool $psr
      * @test
      */
     public function Can_handle_builder_registration(DependencyContainerInterface $container, bool $psr) : void {
@@ -116,8 +101,6 @@ class OpenContainerTest extends TestCase {
 
     /**
      * @dataProvider container_psr_Provider
-     * @param DependencyContainerInterface $container
-     * @param bool $psr
      * @test
      */
     public function Can_handle_circular_dependency_resolution(DependencyContainerInterface $container, bool $psr) : void {
@@ -165,8 +148,6 @@ class OpenContainerTest extends TestCase {
 
     /**
      * @dataProvider container_psr_Provider
-     * @param DependencyContainerInterface $container
-     * @param bool $psr
      * @test
      */
     public function Can_handle_unregistered_dependency(DependencyContainerInterface $container, bool $psr) : void {
@@ -181,7 +162,6 @@ class OpenContainerTest extends TestCase {
 
     /**
      * @dataProvider psr_Provider
-     * @param bool $psr
      * @test
      */
     public function Can_handle_deferred_dependency_construction_error(bool $psr) : void {
@@ -191,9 +171,7 @@ class OpenContainerTest extends TestCase {
 
         // arrange
         $container = (new DependencyContainer())->toDeferredContainer();
-        $container->registerBuilder('Puppy', function() {
-            return new Instance();
-        });
+        $container->registerBuilder('Puppy', fn() => new Instance());
 
         // act
         $psr ? $container->get('Puppy') : $container->Puppy;
@@ -201,8 +179,6 @@ class OpenContainerTest extends TestCase {
 
     /**
      * @dataProvider container_psr_Provider
-     * @param DependencyContainerInterface $container
-     * @param bool $psr
      * @test
      */
     public function Can_check_if_dependency_is_registered(DependencyContainerInterface $container, bool $psr) : void {
@@ -218,7 +194,6 @@ class OpenContainerTest extends TestCase {
 
     /**
      * @dataProvider container_Provider
-     * @param DependencyContainerInterface $container
      * @test
      */
     public function Can_check_if_dependency_is_resolved(DependencyContainerInterface $container) : void {
