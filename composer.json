@@ -14,7 +14,7 @@
     "issues": "https://github.com/modethirteen/opencontainer/issues"
   },
   "require": {
-    "php": "~8.2.0",
+    "php": "^8.2 || ^8.3 || ^8.4 || ^8.5",
     "psr/container": "^1.0.0",
     "friendsofphp/proxy-manager-lts": "^1.0.14"
   },
